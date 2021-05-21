@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("background-color: rgb(242, 242, 242);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.list_view = QtWidgets.QListView(self.centralwidget)
+        self.list_view = QtWidgets.QListWidget(self.centralwidget)
         self.list_view.setGeometry(QtCore.QRect(20, 120, 501, 311))
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -110,7 +110,7 @@ class Ui_MainWindow(object):
         self.edit_pass.setObjectName("edit_pass")
         self.progress_bar = QtWidgets.QProgressBar(self.centralwidget)
         self.progress_bar.setGeometry(QtCore.QRect(20, 550, 501, 23))
-        self.progress_bar.setProperty("value", 24)
+        self.progress_bar.setProperty("value", 0)
         self.progress_bar.setObjectName("progress_bar")
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Zip Compactor"))
         self.button_converter.setText(_translate("MainWindow", "Compactar"))
         self.button_select.setText(_translate("MainWindow", "Selecionar Arquivos"))
         self.label_title.setText(_translate("MainWindow", "Zip Compactor"))
