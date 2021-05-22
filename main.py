@@ -2,6 +2,8 @@ from PyQt5 import QtWidgets
 from zip_compactor_design import Ui_MainWindow
 from tools import getOpenFilesAndDirs, Message
 from zipfile import ZipFile, ZIP_DEFLATED
+import os
+import pathlib
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -24,25 +26,29 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.list_view.addItem(str(path))
 
     def compact_to_zip(self):
-        import os
-        path_save = QtWidgets.QFileDialog.getSaveFileName(filter='*.zip')
-        files_to_compact = list()
-        for index in range(self.ui.list_view.count()):
-            files_to_compact.append(self.ui.list_view.item(index).text())
+        try:
+            path_save = QtWidgets.QFileDialog.getSaveFileName(filter='*.zip')
+            zip_dir = pathlib.Path(os.path.split(path_save[0])[1]).stem
+            files_to_compact = list()
+            for index in range(self.ui.list_view.count()):
+                files_to_compact.append(self.ui.list_view.item(index).text())
 
-        with ZipFile(path_save[0], 'w', ZIP_DEFLATED) as zipObj:
-            for file in files_to_compact:
-                zipObj.write(os.path.split(file)[1])
+            with ZipFile(path_save[0], 'w', ZIP_DEFLATED) as zipObj:
+                for file in files_to_compact:
+                    if os.path.isdir(file):
+                        folder = os.path.basename(file)
+                        for folder_name, sub_folders, filenames in os.walk(file):
+                            for filename in filenames:
+                                file_path = os.path.join(folder_name, filename)
+                                file_zip = os.path.join(folder, filename)
+                                zipObj.write(file_path, os.path.join(zip_dir, file_zip), ZIP_DEFLATED)
+                    elif os.path.isfile(file):
+                        zipObj.write(file, os.path.join(zip_dir, os.path.split(file)[1]), ZIP_DEFLATED)
 
-        #with ZipFile(path_save[0], 'w') as zipObj:
-        #    for folder_name, sub_folders, filenames in os.walk(self.files):
-        #        print(filenames)
-        #        for filename in filenames:
-        #            print(filename)
-        #            file_path = os.path.join(folder_name, filename)
-        #            zipObj.write(file_path, os.path.basename(file_path))
-        msg = Message(self, 'Arquivo criado com sucesso!', type_m='info')
-        msg.show()
+            msg = Message(self, 'Arquivo criado com sucesso!', type_m='info')
+            msg.show()
+        except Exception as error:
+            print(error)
 
 
 if __name__ == "__main__":
