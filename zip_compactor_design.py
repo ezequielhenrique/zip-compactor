@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         MainWindow.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../../Downloads/favicon-32x32.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("images/icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("background-color: rgb(242, 242, 242);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -84,7 +84,7 @@ class Ui_MainWindow(object):
         self.label_title.setAlignment(QtCore.Qt.AlignCenter)
         self.label_title.setObjectName("label_title")
         self.check_box = QtWidgets.QCheckBox(self.centralwidget)
-        self.check_box.setGeometry(QtCore.QRect(30, 450, 70, 17))
+        self.check_box.setGeometry(QtCore.QRect(30, 450, 100, 17))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
@@ -95,11 +95,12 @@ class Ui_MainWindow(object):
 "")
         self.check_box.setObjectName("check_box")
         self.edit_pass = QtWidgets.QLineEdit(self.centralwidget)
-        self.edit_pass.setGeometry(QtCore.QRect(110, 450, 411, 20))
+        self.edit_pass.setGeometry(QtCore.QRect(120, 450, 411, 20))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
         self.edit_pass.setFont(font)
+        self.edit_pass.setEchoMode(QtWidgets.QLineEdit.Password)
         self.edit_pass.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "color: rgb(64, 64, 64);\n"
 "border-color: rgb(115, 115, 115);\n"
@@ -120,10 +121,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Zip Compactor"))
-        self.button_converter.setText(_translate("MainWindow", "Compactar"))
-        self.button_select.setText(_translate("MainWindow", "Selecionar Arquivos"))
+        self.button_converter.setText(_translate("MainWindow", "Compact"))
+        self.button_select.setText(_translate("MainWindow", "Select Files"))
         self.label_title.setText(_translate("MainWindow", "Zip Compactor"))
-        self.check_box.setText(_translate("MainWindow", "Senha"))
+        self.check_box.setText(_translate("MainWindow", "Password:"))
 
 
 if __name__ == "__main__":
