@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from designs.window_confirm_design import Ui_Dialog
 
 
 class Message(QtWidgets.QMessageBox):
@@ -17,6 +18,26 @@ class Message(QtWidgets.QMessageBox):
             self.setText('Info:')
             self.setWindowTitle('Information')
         self.setInformativeText(text)
+
+
+class DialogConfirm(QtWidgets.QDialog):
+    def __init__(self, parent, password):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.parent = parent
+        self.password = password
+
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self)
+        # Add clicked events
+        self.ui.button_confirm.clicked.connect(self.confirm_password)
+
+    def confirm_password(self):
+        if self.ui.confirm_pass.text() == self.password:
+            self.reject()
+            return 'texto'
+        else:
+            msg = Message(self, 'Incorrect Password')
+            msg.show()
 
 
 def getOpenFilesAndDirs(parent=None, caption='', directory='', filters='', initial_filter='', options=None):
@@ -70,4 +91,3 @@ def folders_in(path_to_parent):
     for file_name in os.listdir(path_to_parent):
         if os.path.isdir(os.path.join(path_to_parent, file_name)):
             yield os.path.join(path_to_parent, file_name)
-            # print(file_name)
