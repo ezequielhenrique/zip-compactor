@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
-from designs.window_confirm_design import Ui_Dialog
+from zipfile import ZipFile, ZIP_DEFLATED
+import os
 
 
 class Message(QtWidgets.QMessageBox):
@@ -18,26 +19,6 @@ class Message(QtWidgets.QMessageBox):
             self.setText('Info:')
             self.setWindowTitle('Information')
         self.setInformativeText(text)
-
-
-class DialogConfirm(QtWidgets.QDialog):
-    def __init__(self, parent, password):
-        QtWidgets.QDialog.__init__(self, parent)
-        self.parent = parent
-        self.password = password
-
-        self.ui = Ui_Dialog()
-        self.ui.setupUi(self)
-        # Add clicked events
-        self.ui.button_confirm.clicked.connect(self.confirm_password)
-
-    def confirm_password(self):
-        if self.ui.confirm_pass.text() == self.password:
-            self.reject()
-            return 'texto'
-        else:
-            msg = Message(self, 'Incorrect Password')
-            msg.show()
 
 
 def getOpenFilesAndDirs(parent=None, caption='', directory='', filters='', initial_filter='', options=None):
@@ -91,3 +72,17 @@ def folders_in(path_to_parent):
     for file_name in os.listdir(path_to_parent):
         if os.path.isdir(os.path.join(path_to_parent, file_name)):
             yield os.path.join(path_to_parent, file_name)
+
+
+def create_zip(path, list_files, zip_dir):
+    with ZipFile(path, 'w', ZIP_DEFLATED) as zipObj:
+        for file in list_files:
+            if os.path.isdir(file):
+                folder = os.path.basename(file)
+                for folder_name, sub_folders, filenames in os.walk(file):
+                    for filename in filenames:
+                        file_path = os.path.join(folder_name, filename)
+                        file_zip = os.path.join(folder, filename)
+                        zipObj.write(file_path, os.path.join(zip_dir, file_zip), ZIP_DEFLATED)
+            elif os.path.isfile(file):
+                zipObj.write(file, os.path.join(zip_dir, os.path.split(file)[1]), ZIP_DEFLATED)

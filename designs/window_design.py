@@ -86,33 +86,6 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.list_view)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.check_box = QtWidgets.QCheckBox(self.verticalLayoutWidget)
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.check_box.setFont(font)
-        self.check_box.setStyleSheet("color: rgb(64, 64, 64);\n"
-"")
-        self.check_box.setObjectName("check_box")
-        self.horizontalLayout.addWidget(self.check_box)
-        self.edit_pass = QtWidgets.QLineEdit(self.verticalLayoutWidget)
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.edit_pass.setFont(font)
-        self.edit_pass.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"color: rgb(64, 64, 64);\n"
-"border-color: rgb(115, 115, 115);\n"
-"border-radius: 10px;\n"
-"border-width: 2px;\n"
-"border-style: solid;\n"
-"padding-left: 5px;")
-        self.edit_pass.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.edit_pass.setObjectName("edit_pass")
-        self.horizontalLayout.addWidget(self.edit_pass)
-        self.verticalLayout.addLayout(self.horizontalLayout)
         self.button_converter = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.button_converter.setMinimumSize(QtCore.QSize(0, 25))
         font = QtGui.QFont()
@@ -143,7 +116,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_title.setText(_translate("MainWindow", "Zip Compactor"))
         self.button_select.setText(_translate("MainWindow", "Select Files"))
-        self.check_box.setText(_translate("MainWindow", "Password:"))
         self.button_converter.setText(_translate("MainWindow", "Compact"))
 
 
