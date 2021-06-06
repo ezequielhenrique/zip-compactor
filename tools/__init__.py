@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from zipfile import ZipFile, ZIP_DEFLATED
 import os
 
@@ -32,6 +32,13 @@ def getOpenFilesAndDirs(parent=None, caption='', directory='', filters='', initi
     # dialog = QtWidgets.QFileDialog(parent, windowTitle=caption)
     dialog = QtWidgets.QFileDialog()
     dialog.setFileMode(dialog.ExistingFiles)
+
+    directory = os.path.dirname(os.path.realpath(__file__))
+    parent_directory = os.path.split(directory)[0] + '/images'
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap(f"{parent_directory}/icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+    dialog.setWindowIcon(icon)
+
     if options:
         dialog.setOptions(options)
     dialog.setOption(dialog.DontUseNativeDialog, True)
@@ -68,7 +75,6 @@ def getOpenFilesAndDirs(parent=None, caption='', directory='', filters='', initi
 
 
 def folders_in(path_to_parent):
-    import os
     for file_name in os.listdir(path_to_parent):
         if os.path.isdir(os.path.join(path_to_parent, file_name)):
             yield os.path.join(path_to_parent, file_name)

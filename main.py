@@ -44,10 +44,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 # function create zip
                 create_zip(path_save[0], files_to_compact, zip_dir)
 
-                self.ui.progress_bar.setValue(100)
                 msg = Message(self, 'Successfully created file!', type_m='info')
                 msg.show()
-                self.ui.progress_bar.setValue(0)
                 self.ui.list_view.clear()
             else:
                 msg_add = Message(self, 'Select files to compress', type_m='info')
