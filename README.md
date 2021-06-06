@@ -1,13 +1,39 @@
-# Zip Converter
+# Zip Compactor
 
 ## :rocket: Files compressor for .zip
 
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-3776AB?&logo=python&logoColor=3776AB)](https://www.python.org/)
+![GUI](https://img.shields.io/badge/GUI-PyQt5-41CD52?&logo=qt&logoColor=41CD52)
 ![License](https://img.shields.io/static/v1?label=License&message=MIT&color=blue&style=flat)
 
-### :white_check_mark: Summary
+---
 
-**:point_right: [About](About)**
+## :white_check_mark: Table of Contents
+<!--ts-->
+* [About The Project](#about-the-project)
+  * [Build With](#build-with)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [License](#license)
+<!--te-->
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+### Build With
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+### Prerequisites
+
+### Installation
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See [`LICENSE`](https://github.com/ezequielhenrique/zip-compactor/blob/master/LICENSE) for more information.
 
 ### :white_check_mark: Status
 
@@ -16,5 +42,5 @@
 ---
 ### Autor
 
-**Developed by [Ezequiel Henrique](https://github.com/ezequielhenrique)**
+[![Autor Badge](https://img.shields.io/badge/Developed%20by-Ezequiel%20Henrique-8C8481?style=flat-square)](https://github.com/ezequielhenrique)
 [![Gmail Badge](https://img.shields.io/badge/-ehmdeveloper@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:ehmdeveloper@gmail.com)](mailto:ehmdeveloper@gmail.com)
