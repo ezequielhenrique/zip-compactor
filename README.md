@@ -20,15 +20,28 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+File and folder zipper created using the python [zipfile](https://docs.python.org/3/library/zipfile.html) lib.
 
 ### Build With
+* Python
+* PyQt5
 
 <!-- GETTING STARTED -->
 ## Getting Started
+Steps to run the project.
 
 ### Prerequisites
+* [Python >= 3.6](https://www.python.org/)
+* [PyQt5](https://pypi.org/project/PyQt5/)
+  ```sh
+  pip install PyQt5
+  ```
 
 ### Installation
+* Clone the repo
+   ```sh
+   git clone https://github.com/ezequielhenrique/zip-compactor.git
+   ```
 
 <!-- LICENSE -->
 ## License
