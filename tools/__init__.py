@@ -1,5 +1,8 @@
+import zipfile
+
 from PyQt5 import QtWidgets, QtGui
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZipFile
+import shutil
 import os
 
 
@@ -7,9 +10,9 @@ class Message(QtWidgets.QMessageBox):
     def __init__(self, parent, text, type_m='error'):
         QtWidgets.QMessageBox.__init__(self, parent)
         self.setParent(parent)
-        self.setStyleSheet("QPushButton {background-color: rgb(166, 166, 166); color: rgb(64, 64, 64); "
-                           "border-style: solid; font:bold; font-size: 12px; border-width: 2px; border-radius: 10px; "
-                           "border-color: rgb(115, 115, 115); border-style: solid; padding: 2px 30px 2px 30px;}")
+        self.setStyleSheet("QPushButton {background-color: rgb(64, 66, 67); color: rgb(242, 242, 242); "
+                           "border-style: solid; font:bold; font-size: 12px; border-width: 1px; border-radius: 10px; "
+                           "border-color: rgb(160, 160, 160); border-style: solid; padding: 2px 30px 2px 30px;}")
         if type_m.lower() == 'error':
             self.setIcon(QtWidgets.QMessageBox.Critical)
             self.setText('Erro:')
@@ -21,17 +24,25 @@ class Message(QtWidgets.QMessageBox):
         self.setInformativeText(text)
 
 
-def getOpenFilesAndDirs(parent=None, caption='', directory='', filters='', initial_filter='', options=None):
-    def updateText():
+def get_files_and_dirs(parent=None, caption='', directory='', filters='', initial_filter='', options=None):
+    def update_text():
         # update the contents of the line edit widget with the selected files
         selected = []
         for index in view.selectionModel().selectedRows():
             selected.append('"{}"'.format(index.data()))
         lineEdit.setText(' '.join(selected))
 
-    # dialog = QtWidgets.QFileDialog(parent, windowTitle=caption)
-    dialog = QtWidgets.QFileDialog()
+    def folders_in(path_to_parent):
+        for file_name in os.listdir(path_to_parent):
+            if os.path.isdir(os.path.join(path_to_parent, file_name)):
+                yield os.path.join(path_to_parent, file_name)
+
+    dialog = QtWidgets.QFileDialog(parent)
+    dialog.setWindowTitle(caption)
     dialog.setFileMode(dialog.ExistingFiles)
+    dialog.setStyleSheet("border-color: rgb(160, 160, 160);\n"
+                         "border-width: 1px;\n"
+                         "border-style: solid;")
 
     directory = os.path.dirname(os.path.realpath(__file__))
     parent_directory = os.path.split(directory)[0] + '/images'
@@ -62,7 +73,7 @@ def getOpenFilesAndDirs(parent=None, caption='', directory='', filters='', initi
     # viewMode is set to QFileDialog.Details, which is not this case
     stackedWidget = dialog.findChild(QtWidgets.QStackedWidget)
     view = stackedWidget.findChild(QtWidgets.QListView)
-    view.selectionModel().selectionChanged.connect(updateText)
+    view.selectionModel().selectionChanged.connect(update_text)
 
     lineEdit = dialog.findChild(QtWidgets.QLineEdit)
     # clear the line edit contents whenever the current directory changes
@@ -70,25 +81,26 @@ def getOpenFilesAndDirs(parent=None, caption='', directory='', filters='', initi
 
     dialog.exec_()
     folders_in(dialog.selectedFiles())
-    # print list(folders_in(dialog.selectedFiles()))
+
     return dialog.selectedFiles()
 
 
-def folders_in(path_to_parent):
-    for file_name in os.listdir(path_to_parent):
-        if os.path.isdir(os.path.join(path_to_parent, file_name)):
-            yield os.path.join(path_to_parent, file_name)
+def create_zip(filename_save, file_paths):
+    with ZipFile(filename_save, 'w', zipfile.ZIP_DEFLATED) as zip_file:  # writing files to a zipfile
+        for path in file_paths:
+            if os.path.isfile(path):                # if path is a file
+                path = os.path.basename(path)
+                zip_file.write(path)            # add file in a zip
 
+            if os.path.isdir(path):                 # if path is a directory
+                dir_name = os.path.basename(path)
+                for root, directories, files in os.walk(path):      # walk through the full directory
+                    for filename in files:
+                        complete_path = os.path.normpath(os.path.join(root, filename))
+                        list_path = complete_path.split(os.sep)     # convert the path in a list
 
-def create_zip(path, list_files, zip_dir):
-    with ZipFile(path, 'w', ZIP_DEFLATED) as zipObj:
-        for file in list_files:
-            if os.path.isdir(file):
-                folder = os.path.basename(file)
-                for folder_name, sub_folders, filenames in os.walk(file):
-                    for filename in filenames:
-                        file_path = os.path.join(folder_name, filename)
-                        file_zip = os.path.join(folder, filename)
-                        zipObj.write(file_path, os.path.join(zip_dir, file_zip), ZIP_DEFLATED)
-            elif os.path.isfile(file):
-                zipObj.write(file, os.path.join(zip_dir, os.path.split(file)[1]), ZIP_DEFLATED)
+                        while list_path[0] != dir_name:     # delete the super directory
+                            list_path.pop(0)
+
+                        resume_path = os.path.join(*list_path)      # convert the list in a path
+                        zip_file.write(complete_path, resume_path)
